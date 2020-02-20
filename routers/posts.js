@@ -32,26 +32,26 @@ router.delete("/posts/:_id", auth, async (req, res) => {
   }
   return res.json(400, { error: "Это не ваш пост!" });
 });
+
 router.delete("/posts/:postId/comments/:commentId", auth, async (req, res) => {
   const { postId, commentId } = req.params;
   const user = req.user._id;
 
   const post = await Posts.findByIdAndUpdate({ _id:postId, user })
-  console.log(post)
   if (!post) {
     res.json(400, 'Post has not been found')
   }
-  console.log(req.body)
   const commentIndex = post.comments
     .findIndex((c) => c._id.toString() === commentId)
-    console.log(commentIndex)
   if (commentIndex < 0) {
     res.json(400, 'Comment has not been found')
   }
   post.comments.splice(commentIndex, 1)
   const posts = await post.save()
-  return res.json(200, {posts});
+  const onePost = await Posts.findById(postId);
+  return res.json(200, {posts:posts});
 });
+
 router.get("/posts/:_id", auth, async (req, res) => {
   const id = req.params._id;
   const onePost = await Posts.findById(id);

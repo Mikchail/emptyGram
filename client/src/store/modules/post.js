@@ -97,12 +97,12 @@ export default {
         try {
           const posts = await httpServices.delete(`/posts/${postId}/comments/${commentId}`);
           commit('setLoading', false);
-          commit('setSuccess', posts.data.success);
-          commit('deletePost', id);
+					 commit('setSuccess', 'Удалено');
+					 commit('addComment', { id:postId, comments: posts.data.posts.comments });
 
         } catch (error) {
           commit('setLoading', false);
-          commit('setError', error.response.data.error);
+          commit('setError', 'Ошибка');
           throw error
         }
 
