@@ -29,7 +29,7 @@ app.use(cookieParser());
 
 handlers.forEach(h => app.use(h));
 // app.set("views", "views");
-app.use(express.static('dist'));
+app.use(express.static('client/dist'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -76,17 +76,17 @@ app.use(function(req, res, next) {
 app.use(cors({ credentials: true, origin: serverDev }));
 
 app.use(roters);
-app.get('*', (req, res) => {
-      res.redirect('/')
-})
-// if (process.env.NODE_ENV === 'production') {
-//   // app.use('/', express.static(path.join(__dirname, 'dist')))
-//
+// app.get('*', (req, res) => {
+//       res.redirect('/')
+// })
+if (process.env.NODE_ENV === 'production') {
+  // app.use('/', express.static(path.join(__dirname, 'dist')))
 
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
-//   })
-// }
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client/dist', 'index.html'))
+  })
+}
 
 
 const PORT = process.env.PORT || 3000;
