@@ -12,9 +12,7 @@ module.exports = passport => {
 		const userInBase = await User.findById(id);
 		const user = userInBase.id === id ? userInBase : false;
 
-		// User.findByIdAndUpdate(id, { $set : { 'lastActivityDate' : Date.now() }}, function(err, user) {
-        //     done(err, user);
-        // });
+	
 		done(null, user);
 	});
 
